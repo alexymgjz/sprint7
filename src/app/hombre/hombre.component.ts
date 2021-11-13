@@ -1,109 +1,116 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {viewport} from "@popperjs/core";
-import {createViewChild} from "@angular/compiler/src/core";
+import {Component, OnInit} from '@angular/core';
+
+import {CalculosService} from "../calculos.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
+import { Location } from '@angular/common';
+
+
 @Component({
   selector: 'app-hombre',
   templateUrl: './hombre.component.html',
   styleUrls: ['./hombre.component.css']
 })
 export class HombreComponent implements OnInit {
-  pageActive: boolean = false;
-  seoActive: boolean = false;
-  adsActive: boolean = false;
+  pageCantidadValor:number=1;
+  pageIdiomaCantidad:number=1;
+  // @ts-ignore
+ public form: FormGroup;
 
-  pageCantidad: number = 1;
-  idiomaCantidad: number = 1;
-
-  price: number = 0;
-  extras: number = 0;
-
-  @ViewChild('numeroPaginas') numeroPaginasElem: ElementRef | undefined;
-
-  constructor() {
+  constructor(
+    public service:CalculosService,
+    private formBuilder:FormBuilder,
+    private location: Location,
+    private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.updateAllValue();
-  }
+/*
+    this.activatedRoute.params.subscribe(params => {
+      const pageCantidad = params['c'];
+      console.log("sdasdsada sdsa ", this.activatedRoute.snapshot.queryParamMap.get('pageCantidad'))
+      this.form.patchValue({
+        pageCantidad: this.activatedRoute.snapshot.queryParamMap.get('pageCantidad'),
+      });
+    });
+*/
 
-  recet(){
-    this.idiomaCantidad=1;
-    this.pageCantidad=1;
-    this.extras=0;
-  }
+    this.form = this.formBuilder.group({
+        presupuestoName : [''] ,
+        cliente : [''],
+        webPage : [''],
+        pageCantidad : ['1'],
+        idiomaCantidad : ['1'],
+        seoActive : [''],
+        adsActive : [''],
+        totalPrecios : ['']
+      })
 
-  onCheckboxChange(e: any) {
-      console.log(e);
-    if (e.target.checked && e.target.defaultValue == 500  ) {
-      this.recet()
-      this.pageActive = true;
-      this.onTypeTextChange(e)
-      this.price = Number(e.target.defaultValue) + this.extras ;
-      }
-    else if(e.target.checked && e.target.defaultValue == 300  ){
-      this.price += Number(e.target.defaultValue);
-      this.pageActive = false;
-    }
-    else if(e.target.checked && e.target.defaultValue == 200  ){
-      this.price += Number(e.target.defaultValue);
-      this.pageActive = false;
-    }
-
-     else if(e.target.defaultValue == 500 && !e.target.checked){
-      this.price -= Number(e.target.defaultValue)}
-     else if(e.target.defaultValue == 300 && !e.target.checked){
-      this.price -= Number(e.target.defaultValue) }
-     else if(e.target.defaultValue == 200 && !e.target.checked){
-      this.price -= Number(e.target.defaultValue) }
-
-  };
-
-  onTypeTextChange(e: any) {
-    this.price -= Number(e.target.defaultValue) + this.extras
-    this.extras=0;
-    if ((this.pageCantidad !=1 || this.idiomaCantidad !=1))
-      this.extras = Number(this.pageCantidad) * Number(this.idiomaCantidad) * 30
-      this.price += this.extras
-  };
-
-  updateAllValue(){
-
-    this.price = 0;
-    this.extras = 0;
-
-    if (this.pageActive){
-      this.price += 500;
-    }
-    if(this.pageCantidad !=1 || this.idiomaCantidad !=1){
-      this.extras = this.pageCantidad * this.idiomaCantidad * 30;
-    }
-    if (this.seoActive){
-      this.price += 300;
-    }
-    if (this.adsActive){
-      this.price += 200;
-    }
+    this.updateAllData()
 
   }
 
-
-/*  agregar(valor: number){
-      if (valor >=1){
-        this.pageCantidad =  Number(this.numeroPaginasElem?.nativeElement.value) +1;
-
-      }
-    }
+  updateAllData(){
+    this.service.updateAllValue(this.form);
+  }
 
 
-  disminuir(elem:number) {
-    if (elem === 1) {
-      if (this.pageCantidad >= 1) {
-        this.pageCantidad--;
-      }
-    } else {
-      if (this.idiomaCantidad >= 1) {
-        this.idiomaCantidad--;
-      }
-    }
-  }*/
+  add(valor:number){
+   if (valor===1){
+     if (this.pageCantidadValor >= 1){
+       this.pageCantidadValor++
+       this.form.patchValue({ pageCantidad:this.pageCantidadValor })
+     }
+   }
+   if (valor===2){
+     if (this.pageIdiomaCantidad >= 1){
+       this.pageIdiomaCantidad++
+       this.form.patchValue({ idiomaCantidad:this.pageIdiomaCantidad })
+     }
+   }
+
+     this.updateAllData();
+/*    const valActual = this.form.value.pageCantidad;
+    const newValue = Number(this.form.value.pageCantidad) + 1;
+
+    this.form.patchValue({
+      pageCantidad: newValue,
+    });
+    let cururl = this.location.path().replace('pageCantidad=' + valActual, 'pageCantidad=' + newValue);
+
+    this.location.go(cururl);*/
 }
+
+
+
+  rest(valor:number){
+    if (valor===1){
+      if (this.pageCantidadValor > 1){
+        this.pageCantidadValor--
+        this.form.patchValue({ pageCantidad:this.pageCantidadValor })
+      }
+    }
+    if (valor===2){
+      if (this.pageIdiomaCantidad >1){
+        this.pageIdiomaCantidad--
+        this.form.patchValue({ idiomaCantidad:this.pageIdiomaCantidad })
+      }
+    }
+    this.updateAllData();
+  }
+
+
+
+send(){
+ this.service.guardarPresupuestos?.push(this.form.value);
+
+
+  this.form.reset()
+  this.service.price=0;
+  this.service.extras=0;
+
+   console.log(this.service.guardarPresupuestos)
+}
+
+}
+

@@ -2,3 +2,28 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.border-radius-6{
+  border-radius: 12px;
+}
+.border-radius-6{
+  border-radius: 6px;
+}
+*{
+  text-align: left;
+  line-height: 26px;
+}
+
+.fondo {
+  background-color: #ffffffe6;
+}
+.min{
+  min-width: 380px;
+}
+.mt-6{
+  margin-top: 10vh;
+}
+.modal-top{
+  margin-top: calc(100vh/3) !important;
+}
+.material-icons.orange600 { color: rgba(157, 31, 34, 0.93); }

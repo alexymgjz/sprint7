@@ -1,38 +1,66 @@
-<div class="container-fluid py-3 border border-primary border-3  d-flex flex-column">
-<p class="fs-3">Que quieres hacer?</p>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="pageActive" (change)="updateAllValue()" id="flexCheckDefault">
-    <label class="form-check-label" for="flexCheckDefault">
-      Una pagina web +(500 €)
-    </label>
-  </div>
-  <div class="d-flex flex-column gap-2 border-dark border  p-3 rounded my-2" *ngIf="pageActive">
-    <label class="" for="numeroPaginas">
-      Numero de paginas
-     <button (click)="pageCantidad = pageCantidad >= 1? pageCantidad + 1 : pageCantidad; updateAllValue()">+</button>
-    <input class="text-center" type="number" min="1"  [(ngModel)]=pageCantidad (change)="updateAllValue()"  id="numeroPaginas">
-   <button (click)="pageCantidad = pageCantidad >1 ? pageCantidad - 1 : pageCantidad; updateAllValue()">-</button>
-    </label>
-    <label class="" for="idiomaCantidad">
-      Numero de idiomas
-      <button (click)="idiomaCantidad = idiomaCantidad >= 1 ? idiomaCantidad + 1 : idiomaCantidad; updateAllValue()">+</button>
-    <input class="text-center" type="number" min="1"  [(ngModel)]='idiomaCantidad' (change)="updateAllValue()"  id="idiomaCantidad">
-   <button (click)="idiomaCantidad = idiomaCantidad > 1 ? idiomaCantidad - 1 : idiomaCantidad; updateAllValue()">-</button>
-    </label>
-  </div>
+<div class="container-fluid  d-flex  justify-content-center gap-3 ">
 
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="seoActive" id="flexCheckChecked" (change)="updateAllValue()">
-    <label class="form-check-label" for="flexCheckChecked">
-      Una consultoria SEO +(300 €)
-    </label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="adsActive" id="flexCheckChecked1" (change)="updateAllValue()">
-    <label class="form-check-label" for="flexCheckChecked1">
-      Una campaya de Google Ads +(200 €)
-    </label>
-  </div>
-  <p class="fs-3 my-2">Precio: {{price}} </p>
-  <p class="fs-3">Extra: {{extras}} </p>
+  <div class=" mt-5 p-3 border border-primary border-radius-6   d-flex flex-column min">
+   <p class="fs-3">Que quieres hacer?</p>
+   <form [formGroup]="form"  (submit)="send()"    class="border border-primary p-2 mb-2 rounded-7">
+   <div class="my-2">
+     <input  formControlName="presupuestoName" class="" type="text" id="presupuestoName">
+     <label class="mx-2" for="presupuestoName">Nombre del presupuesto.</label>
+   </div>
+
+     <div class="my-2">
+       <input  formControlName="cliente" class="" type="text" id="cliente">
+       <label class="mx-2" for="cliente">Nombre del cliente.</label>
+     </div>
+
+      <div class="mx-2 form-check ">
+       <input class=" form-check-input" type="checkbox" formControlName="webPage" (change)="updateAllData()"   id="flexCheckDefault">
+       <label class="form-check-label" for="flexCheckDefault">
+         Una pagina web +(500 €)
+       </label>
+     </div>
+     <div class="d-flex flex-column gap-2 border-dark border  p-3 rounded-5 my-2" *ngIf="form.value.webPage">
+       <label class="d-flex w-100 justify-content-around align-items-center" for="numeroPaginas">
+         Numero de paginas
+
+         <button type="button" class="px-3 btn btn-danger border  rounded-6  my-1" (click)="add(1)">+</button>
+         <input class="text-center w-25" type="number" min="1" formControlName="pageCantidad" id="numeroPaginas">
+         <button type="button" class="px-3 btn btn-danger border  rounded-6  my-1" (click)="rest(1)">-</button>
+         <a data-bs-toggle="modal" data-bs-target="#exampleModal"><mat-icon class="material-icons orange600" aria-hidden="false" >info</mat-icon></a>
+       </label>
+       <label class="d-flex w-100 justify-content-around align-items-center" for="idiomaCantidad">
+         Numero de idiomas
+         <button type="button" class="px-3 btn btn-danger border  rounded-6 my-1" (click)="add(2)">+</button>
+         <input class="text-center w-25" type="number" min="1" formControlName="idiomaCantidad"  id="idiomaCantidad">
+         <button type="button" class="px-3 btn btn-danger border  rounded-6  my-1" (click)="rest(2)">-</button>
+         <a data-bs-toggle="modal" data-bs-target="#exampleModal"><mat-icon class="material-icons orange600" aria-hidden="false" >info</mat-icon></a>
+       </label>
+     </div>
+     <div class="mx-2 form-check">
+       <input class="form-check-input" type="checkbox" formControlName="seoActive" (change)="updateAllData()"  id="flexCheckChecked" >
+       <label class="form-check-label" for="flexCheckChecked">
+         Una consultoria SEO +(300 €)
+       </label>
+     </div>
+     <div class="mx-2 form-check">
+       <input class="form-check-input" type="checkbox" formControlName="adsActive" (change)="updateAllData()"  id="flexCheckChecked1" >
+       <label class="form-check-label" for="flexCheckChecked1">
+         Una campaya de Google Ads +(200 €)
+       </label>
+     </div>
+     <p class="mx-2 fs-3 my-2 "  >Precio: {{service.price}} </p>
+     <p class="mx-2 fs-3 ">Extra: {{service.extras}} </p>
+     <button  class="btn btn-outline-primary w-100 my-2" (submit)="send()" >Guardar presupuesto</button>
+ </form>
+   <button class="btn btn-outline-primary" routerLink="" >Home </button>
+ </div>
+
+  <app-pressupost-list  class=" mt-5 p-3 border border-primary border-radius-6   d-flex flex-column min"></app-pressupost-list>
 </div>
+
+<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-top">
+      <p class="p-2 fondo text-muted border-radius-6 ">En este componente debes indicar el número de páginas y el número de idiomas que deseas para tu proyecto.</p>
+</div>
+</div>
+
