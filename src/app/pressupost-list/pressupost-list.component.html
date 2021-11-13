@@ -2,18 +2,19 @@
 <div class="accordion accordion-flush" id="accordionFlushExample">
   <div class="accordion-item" *ngFor="let item of service.guardarPresupuestos; let i = index">
     <h2 class="accordion-header p-0 m-0" id="flu">
-      <button  class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        Presupuesto: {{item.presupuestoName}} -- Nombre: {{item.cliente}}
+      <button  class="accordion-button collapsed d-flex flex-column justify-content-center m-0 p-0 align-items-start" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i"  aria-expanded="false" aria-controls="flush-collapseOne">
+       <a class="d-block text-decoration-none">Presupuesto: {{item.presupuestoName}}</a>
+       <a class="d-block text-decoration-none">Nombre: {{item.cliente}}</a>
       </button>
     </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flu" data-bs-parent="#accordionFlushExample">
+    <div [id]="'collapse'+i"  class="accordion-collapse collapse" aria-labelledby="flu" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body d-flex flex-column p-0" >
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light ">{{item.webPage}}</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light ">{{item.pageCantidad}}</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light ">{{item.idiomaCantidad}}</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.seoActive">Consultoria SEO (Solicitada)</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.adsActive">Campaya de Google Ads (Solicitada)</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light ">{{item.totalPrecios}}</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.webPage == true ">Página web (Solicitada)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.pageCantidad != 1">numero de paginas Solicitadas:({{item.pageCantidad}})</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.idiomaCantidad != 1">numero de idiomas Solicitados:({{item.idiomaCantidad}})</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.seoActive == true">Consultoria SEO (Solicitada)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.adsActive == true">Campaya de Google Ads (Solicitada)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light fs-3 fst-italic "*ngIf="item.totalPrecios">Total a pagar:({{item.totalPrecios}}€)</p>
       </div>
     </div>
   </div>

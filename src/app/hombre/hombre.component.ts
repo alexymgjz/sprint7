@@ -25,6 +25,7 @@ export class HombreComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.service.guardarPresupuestos)
 /*
     this.activatedRoute.params.subscribe(params => {
       const pageCantidad = params['c'];
@@ -45,8 +46,6 @@ export class HombreComponent implements OnInit {
         adsActive : [''],
         totalPrecios : ['']
       })
-
-    this.updateAllData()
 
   }
 

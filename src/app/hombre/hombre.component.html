@@ -1,4 +1,4 @@
-<div class="container-fluid  d-flex  justify-content-center gap-3 ">
+<div class="container-fluid  d-flex  justify-content-center gap-3 flex-wrap ">
 
   <div class=" mt-5 p-3 border border-primary border-radius-6   d-flex flex-column min">
    <p class="fs-3">Que quieres hacer?</p>
@@ -52,10 +52,10 @@
      <p class="mx-2 fs-3 ">Extra: {{service.extras}} </p>
      <button  class="btn btn-outline-primary w-100 my-2" (submit)="send()" >Guardar presupuesto</button>
  </form>
-   <button class="btn btn-outline-primary" routerLink="" >Home </button>
+   <button class="btn btn-outline-primary" routerLink="" >Home</button>
  </div>
 
-  <app-pressupost-list  class=" mt-5 p-3 border border-primary border-radius-6   d-flex flex-column min"></app-pressupost-list>
+  <app-pressupost-list  class="mt-5 p-3 border border-primary   border-radius-6   d-flex flex-column min" *ngIf="service.guardarPresupuestos.length!=0"></app-pressupost-list>
 </div>
 
 <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
