@@ -2,7 +2,7 @@
 
   <div class=" mt-5 p-3 border border-primary border-radius-6   d-flex flex-column min">
    <p class="fs-3">Que quieres hacer?</p>
-   <form [formGroup]="form"  (submit)="send()"    class="border border-primary p-2 mb-2 rounded-7">
+   <form [formGroup]="form"  (submit)="send()" method="get"   class="border border-primary p-2 mb-2 rounded-7">
    <div class="my-2">
      <input  formControlName="presupuestoName" class="" type="text" id="presupuestoName">
      <label class="mx-2" for="presupuestoName">Nombre del presupuesto.</label>
@@ -22,7 +22,6 @@
      <div class="d-flex flex-column gap-2 border-dark border  p-3 rounded-5 my-2" *ngIf="form.value.webPage">
        <label class="d-flex w-100 justify-content-around align-items-center" for="numeroPaginas">
          Numero de paginas
-
          <button type="button" class="px-3 btn btn-danger border  rounded-6  my-1" (click)="add(1)">+</button>
          <input class="text-center w-25" type="number" min="1" formControlName="pageCantidad" id="numeroPaginas">
          <button type="button" class="px-3 btn btn-danger border  rounded-6  my-1" (click)="rest(1)">-</button>
@@ -59,8 +58,8 @@
 </div>
 
 <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-top">
+  <div class="modal-dialog modal-top">
       <p class="p-2 fondo text-muted border-radius-6 ">En este componente debes indicar el número de páginas y el número de idiomas que deseas para tu proyecto.</p>
-</div>
+  </div>
 </div>
 

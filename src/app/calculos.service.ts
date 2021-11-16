@@ -1,41 +1,34 @@
 import { Injectable } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalculosService {
-  guardarPresupuestos:  any[] = []
-  // @ts-ignore
+  guardarPresupuestosBackup: any[]=[];
+
+  guardarPresupuestos:  any[] = this.guardarPresupuestosBackup ;
+
+  original :any[] =[  ];
 
   price: number = 0;
   extras: number = 0;
-  constructor(private formBuilder:FormBuilder,) { };
-
-  ngOnInit(): void {
+  constructor() { };
 
 
-      /*
+  send(form: FormGroup){
+    form.patchValue({
+      fecha :  new Date()
+    });
+    this.guardarPresupuestosBackup.push(form.value);
+    this.original.push(form.value);
 
-          this.activatedRoute.params.subscribe(params => {
-            const pageCantidad = params['c'];
-            console.log("sdasdsada sdsa ", this.activatedRoute.snapshot.queryParamMap.get('pageCantidad'))
-            this.form.patchValue({
-              pageCantidad: this.activatedRoute.snapshot.queryParamMap.get('pageCantidad'),
-            });
-          });
-      */
+    this.updateAllValue(form);
 
-
-
-
-
- }
-
+  }
 
 
   updateAllValue(form: FormGroup){
-
     this.price = 0;
     this.extras = 0;
 
@@ -55,4 +48,33 @@ export class CalculosService {
     form.value.totalPrecios =this.price;
   }
 
+  invertirOrden(){
+    this.guardarPresupuestos = this.guardarPresupuestosBackup;
+    this.guardarPresupuestos.reverse();
+
+  }
+
+  restaurarOriginal(){
+     this.guardarPresupuestos = this.original;
+
+  }
+
+  ordenNombre() {
+    this.guardarPresupuestos = this.guardarPresupuestosBackup;
+    // @ts-ignore
+    this.guardarPresupuestos = this.guardarPresupuestos.map(this.guardarPresupuestos.sort((a,b) =>{
+       if (a.presupuestoName.toLowerCase() - b.presupuestoName.toLowerCase()){
+         return -1;
+       }
+       if (a.presupuestoName.toLowerCase() > b.presupuestoName.toLowerCase()){
+         return 1;
+       }
+       if (a.presupuestoName.toLowerCase() == b.presupuestoName.toLowerCase()){
+         return 0;
+       }
+    }));
+
+
+
+  }
 }

@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-
 import {CalculosService} from "../calculos.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import { Location } from '@angular/common';
-
 
 @Component({
   selector: 'app-hombre',
@@ -12,104 +10,88 @@ import { Location } from '@angular/common';
   styleUrls: ['./hombre.component.css']
 })
 export class HombreComponent implements OnInit {
-  pageCantidadValor:number=1;
-  pageIdiomaCantidad:number=1;
   // @ts-ignore
- public form: FormGroup;
-
+  public form: FormGroup;
   constructor(
     public service:CalculosService,
     private formBuilder:FormBuilder,
     private location: Location,
+    private router: Router,
     private activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit(): void {
-    console.log(this.service.guardarPresupuestos)
-/*
-    this.activatedRoute.params.subscribe(params => {
-      const pageCantidad = params['c'];
-      console.log("sdasdsada sdsa ", this.activatedRoute.snapshot.queryParamMap.get('pageCantidad'))
-      this.form.patchValue({
-        pageCantidad: this.activatedRoute.snapshot.queryParamMap.get('pageCantidad'),
-      });
-    });
-*/
-
+  async ngOnInit() {
     this.form = this.formBuilder.group({
-        presupuestoName : [''] ,
+        presupuestoName : [''],
         cliente : [''],
         webPage : [''],
         pageCantidad : ['1'],
         idiomaCantidad : ['1'],
         seoActive : [''],
         adsActive : [''],
-        totalPrecios : ['']
+        totalPrecios : [''],
+        fecha: new Date()
       })
 
+
+    this.activatedRoute.queryParamMap.subscribe(values => {
+        this.form.patchValue({
+          presupuestoName : values.get('presupuestoName') || '',
+          cliente :  values.get('cliente') || '',
+          webPage :  values.get('webPage') || '',
+          pageCantidad :  values.get('pageCantidad') || '1',
+          idiomaCantidad : values.get('idiomaCantidad') || '1',
+          seoActive :  values.get('seoActive') || '',
+          adsActive :  values.get('adsActive') || '',
+          totalPrecios :  values.get('totalPrecios') || '0'
+        });
+    });
+    this.form.valueChanges.subscribe(values =>{
+      this.router.navigate(['hombre'],{queryParams: values})
+    });
   }
 
   updateAllData(){
     this.service.updateAllValue(this.form);
   }
 
-
   add(valor:number){
-   if (valor===1){
-     if (this.pageCantidadValor >= 1){
-       this.pageCantidadValor++
-       this.form.patchValue({ pageCantidad:this.pageCantidadValor })
+    if (valor===1){
+     if (this.form.value.pageCantidad >= 1){
+       this.form.patchValue({ pageCantidad: Number(this.form.value.pageCantidad)+1 });
      }
    }
    if (valor===2){
-     if (this.pageIdiomaCantidad >= 1){
-       this.pageIdiomaCantidad++
-       this.form.patchValue({ idiomaCantidad:this.pageIdiomaCantidad })
+     if (this.form.value.idiomaCantidad >= 1){
+       this.form.patchValue({ idiomaCantidad: Number(this.form.value.idiomaCantidad)+1 });
      }
    }
-
-     this.updateAllData();
-/*    const valActual = this.form.value.pageCantidad;
-    const newValue = Number(this.form.value.pageCantidad) + 1;
-
-    this.form.patchValue({
-      pageCantidad: newValue,
-    });
-    let cururl = this.location.path().replace('pageCantidad=' + valActual, 'pageCantidad=' + newValue);
-
-    this.location.go(cururl);*/
+    this.updateAllData();
 }
-
-
 
   rest(valor:number){
     if (valor===1){
-      if (this.pageCantidadValor > 1){
-        this.pageCantidadValor--
-        this.form.patchValue({ pageCantidad:this.pageCantidadValor })
+      if (this.form.value.pageCantidad > 1){
+        this.form.patchValue({ pageCantidad: Number(this.form.value.pageCantidad)-1 });
       }
     }
     if (valor===2){
-      if (this.pageIdiomaCantidad >1){
-        this.pageIdiomaCantidad--
-        this.form.patchValue({ idiomaCantidad:this.pageIdiomaCantidad })
+      if (this.form.value.idiomaCantidad > 1){
+        this.form.patchValue({ idiomaCantidad: Number(this.form.value.idiomaCantidad)-1 });
       }
     }
     this.updateAllData();
   }
 
+  send(){
+    this.service.send(this.form);
+    this.form.reset()
+    this.service.price=0;
+    this.service.extras=0;
+    this.form.patchValue({ idiomaCantidad: 1 });
+    this.form.patchValue({ pageCantidad: 1 });
 
+  }
 
-send(){
- this.service.guardarPresupuestos?.push(this.form.value);
-
-
-  this.form.reset()
-  this.service.price=0;
-  this.service.extras=0;
-
-   console.log(this.service.guardarPresupuestos)
-}
-
-}
+  }
 

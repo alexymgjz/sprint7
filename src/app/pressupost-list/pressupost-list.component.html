@@ -1,3 +1,8 @@
+<div class="d-flex gap-2 p-2 ">
+  <button (click)="service.invertirOrden()">Invertir orden</button>
+  <button (click)="service.restaurarOriginal()">Reiniciar orden</button>
+  <button (click)="service.ordenNombre()">Orden por nombre</button>
+</div>
 
 <div class="accordion accordion-flush" id="accordionFlushExample">
   <div class="accordion-item" *ngFor="let item of service.guardarPresupuestos; let i = index">
@@ -9,12 +14,12 @@
     </h2>
     <div [id]="'collapse'+i"  class="accordion-collapse collapse" aria-labelledby="flu" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body d-flex flex-column p-0" >
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.webPage == true ">Página web (Solicitada)</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.pageCantidad != 1">numero de paginas Solicitadas:({{item.pageCantidad}})</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.idiomaCantidad != 1">numero de idiomas Solicitados:({{item.idiomaCantidad}})</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.seoActive == true">Consultoria SEO (Solicitada)</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light "*ngIf="item.adsActive == true">Campaya de Google Ads (Solicitada)</p>
-        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light fs-3 fst-italic "*ngIf="item.totalPrecios">Total a pagar:({{item.totalPrecios}}€)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.webPage == true ">Página web (Solicitada)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.pageCantidad != 1">numero de paginas Solicitadas:({{item.pageCantidad}})</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.idiomaCantidad != 1">numero de idiomas Solicitados:({{item.idiomaCantidad}})</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.seoActive == 'true'">Consultoria SEO (Solicitada)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.adsActive == 'true'">Campaya de Google Ads (Solicitada)</p>
+        <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light fs-3 fst-italic" *ngIf="item.totalPrecios">Total a pagar:({{item.totalPrecios}}€)</p>
       </div>
     </div>
   </div>

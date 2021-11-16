@@ -9,8 +9,9 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent  ,
   },
+
   {
-    path: 'hombre', component: HombreComponent ,
+    path: 'hombre' , component: HombreComponent ,
   }
 ];
 

@@ -26,4 +26,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .modal-top{
   margin-top: calc(100vh/3) !important;
 }
-.material-icons.orange600 { color: rgba(157, 31, 34, 0.93); }
+.material-icons.orange600 { color: rgba(108, 84, 84, 0.85); }
