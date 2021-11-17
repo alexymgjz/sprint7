@@ -11,13 +11,17 @@ import { HomeComponent } from './home/home.component';
 import {MatIconModule} from "@angular/material/icon";
 import {CalculosService} from "./calculos.service";
 import { PressupostListComponent } from './pressupost-list/pressupost-list.component';
+import { FilterPipe } from './filter.pipe';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HombreComponent,
     HomeComponent,
-    PressupostListComponent
+    PressupostListComponent,
+    FilterPipe,
+
   ],
   imports: [
     BrowserModule,

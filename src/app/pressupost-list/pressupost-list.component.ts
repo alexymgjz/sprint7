@@ -7,10 +7,14 @@ import {CalculosService} from "../calculos.service";
   styleUrls: ['./pressupost-list.component.css']
 })
 export class PressupostListComponent implements OnInit {
+  searchText: string='';
+
 
   constructor(public service:CalculosService) { }
 
   ngOnInit(): void {
   }
+
+
 
 }

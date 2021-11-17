@@ -7,9 +7,9 @@ import { FormGroup} from "@angular/forms";
 export class CalculosService {
   guardarPresupuestosBackup: any[]=[];
 
-  guardarPresupuestos:  any[] = this.guardarPresupuestosBackup ;
+  guardarPresupuestos:  any[]=[] ;
 
-  original :any[] =[  ];
+  mostrar: boolean = false;
 
   price: number = 0;
   extras: number = 0;
@@ -20,11 +20,10 @@ export class CalculosService {
     form.patchValue({
       fecha :  new Date()
     });
+    this.guardarPresupuestos.push(form.value);
     this.guardarPresupuestosBackup.push(form.value);
-    this.original.push(form.value);
-
     this.updateAllValue(form);
-
+    this.mostrar = true;
   }
 
 
@@ -48,33 +47,27 @@ export class CalculosService {
     form.value.totalPrecios =this.price;
   }
 
+
+
   invertirOrden(){
-    this.guardarPresupuestos = this.guardarPresupuestosBackup;
     this.guardarPresupuestos.reverse();
-
   }
 
-  restaurarOriginal(){
-     this.guardarPresupuestos = this.original;
-
-  }
 
   ordenNombre() {
-    this.guardarPresupuestos = this.guardarPresupuestosBackup;
     // @ts-ignore
-    this.guardarPresupuestos = this.guardarPresupuestos.map(this.guardarPresupuestos.sort((a,b) =>{
-       if (a.presupuestoName.toLowerCase() - b.presupuestoName.toLowerCase()){
-         return -1;
-       }
-       if (a.presupuestoName.toLowerCase() > b.presupuestoName.toLowerCase()){
-         return 1;
-       }
-       if (a.presupuestoName.toLowerCase() == b.presupuestoName.toLowerCase()){
-         return 0;
-       }
-    }));
-
-
-
+    this.guardarPresupuestos.sort(function (a, b) {
+      return a.presupuestoName.toLowerCase() > b.presupuestoName.toLowerCase();
+    });
   }
+  ordenFecha() {
+    // @ts-ignore
+    this.guardarPresupuestos.sort(function (a, b) {
+      return a.fecha < b.fecha;
+    });
+  }
+
+  pich(searchText: string) {
+     this.guardarPresupuestos = this.guardarPresupuestosBackup.filter(o => o.presupuestoName.includes(searchText));
+   }
 }

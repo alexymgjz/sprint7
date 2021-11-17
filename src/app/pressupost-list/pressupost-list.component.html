@@ -1,18 +1,29 @@
-<div class="d-flex gap-2 p-2 ">
-  <button (click)="service.invertirOrden()">Invertir orden</button>
-  <button (click)="service.restaurarOriginal()">Reiniciar orden</button>
-  <button (click)="service.ordenNombre()">Orden por nombre</button>
+<div class="d-flex flex-column gap-2 p-2 ">
+
+
+
+  <div class="d-flex flex-column gap-2 p-2">
+    <input class="border border-2 border-primary p-1" [(ngModel)]="searchText" type="text" placeholder="Search" (ngModelChange)="service.pich(searchText)">
+    <button class="btn btn-outline-primary" (click)="service.invertirOrden()">Invertir orden</button>
+    <button class="btn btn-outline-primary" (click)="service.ordenFecha()">Orden por fecha decreciente</button>
+    <button class="btn btn-outline-primary" (click)="service.ordenNombre()">Orden por nombre</button>
+  </div>
+
+
 </div>
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+<div class="accordion accordion-flush " id="accordionFlushExample">
+  <!--para usar con un pipe
+   *ngFor="let item of service.guardarPresupuestos | buscar: searchText:1; let i = index"
+   -->
   <div class="accordion-item" *ngFor="let item of service.guardarPresupuestos; let i = index">
-    <h2 class="accordion-header p-0 m-0" id="flu">
-      <button  class="accordion-button collapsed d-flex flex-column justify-content-center m-0 p-0 align-items-start" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i"  aria-expanded="false" aria-controls="flush-collapseOne">
-       <a class="d-block text-decoration-none">Presupuesto: {{item.presupuestoName}}</a>
-       <a class="d-block text-decoration-none">Nombre: {{item.cliente}}</a>
+    <h2 class="accordion-header p-0 m-0 bg-success" id="flu">
+      <button  class="accordion-button collapsed d-flex gap-3 justify-content-center m-0 p-0 align-items-start" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i"  aria-expanded="false" aria-controls="flush-collapseOne">
+       <a class="d-block text-decoration-none bg-light bg-opacity-50">Presupuesto: {{item.presupuestoName}}</a>
+       <a class="d-block text-decoration-none bg-light bg-opacity-50">Nombre: {{item.cliente}}</a>
       </button>
     </h2>
-    <div [id]="'collapse'+i"  class="accordion-collapse collapse" aria-labelledby="flu" data-bs-parent="#accordionFlushExample">
+    <div [id]="'collapse'+i"  class="accordion-collapse collapse bg-success bg-opacity-75" aria-labelledby="flu" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body d-flex flex-column p-0" >
         <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.webPage == true ">Página web (Solicitada)</p>
         <p class="m-0 p-2 border-radius-8 bg-opacity-50 bg-light " *ngIf="item.pageCantidad != 1">numero de paginas Solicitadas:({{item.pageCantidad}})</p>

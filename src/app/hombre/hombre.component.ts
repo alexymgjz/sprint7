@@ -3,6 +3,8 @@ import {CalculosService} from "../calculos.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router, ActivatedRoute} from "@angular/router";
 import { Location } from '@angular/common';
+import { Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-hombre',
@@ -22,7 +24,7 @@ export class HombreComponent implements OnInit {
 
   async ngOnInit() {
     this.form = this.formBuilder.group({
-        presupuestoName : [''],
+        presupuestoName : ['', Validators.required],
         cliente : [''],
         webPage : [''],
         pageCantidad : ['1'],
